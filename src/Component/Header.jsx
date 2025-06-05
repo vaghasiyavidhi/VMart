@@ -26,8 +26,10 @@ function Header() {
             {/* <div style={{marginRight:15, position:'relative'}}>
               <IoMdHeart style={{color:'white', fontSize:22}} /><Badge style={{position:'absolute', marginRight:10, backgroundColor:'darkgreen'}}>{count}</Badge>
             </div> */}
-            <div style={{marginRight:25, position:'relative'}}>
-              <Link to='/cart'><IoMdCart style={{color:'white', fontSize:26}} /><Badge style={{position:'absolute', marginRight:10, backgroundColor:'darkgreen'}}>{count}</Badge></Link>    
+            <div style={{position:'fixed', top:0, right:0, margin:'25px 15px'}}>
+              <div style={{marginRight:25, position:'relative'}}>
+                <Link to='/cart'><IoMdCart style={{color:'white', fontSize:26}} /><Badge style={{position:'absolute', marginRight:10, backgroundColor:'darkgreen'}}>{count}</Badge></Link>    
+              </div>
             </div>
             
           </Navbar.Collapse>

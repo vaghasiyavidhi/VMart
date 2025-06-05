@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Button, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Button, Dropdown} from 'react-bootstrap';
+import { Offcanvas } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { addToCart } from '../Slice/cartSlice';
@@ -11,6 +12,9 @@ function Shop() {
     const [products, setProducts]=useState([])
     const [list, setAllList]=useState([])
     const [cat, setCat]=useState('all')
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [search, setSearch]=useState('')
     const [page, setPage]=useState(1)
     const itemsPage = 35
@@ -70,18 +74,6 @@ function Shop() {
         }
     }
 
-    // const pageData = (page) =>{
-    //     const skip = (page - 1) * itemsPage
-
-    //     fetch(`https://dummyjson.com/products?limit=${itemsPage}&skip=${skip}`)
-    //     .then(res => res.json())
-    //     .then((data)=>{
-    //         setProducts(data.products)
-    //         setTotal(data.total)
-    //         setPage(page)
-    //     })
-    // }
-
     const pageData = (page, sortField = sortBy, sortOrder = order) =>{
         const skip = (page - 1) * itemsPage
         let url = `https://dummyjson.com/products?limit=${itemsPage}&skip=${skip}`
@@ -106,17 +98,34 @@ function Shop() {
         pageData(1, sortField, sortOrder)
     }
 
-    // const lastItem = page * itemsPage
-    // const firstItem = lastItem - itemsPage
-    // const filterPro = products.slice(firstItem, lastItem)
-    // const totalPage = Math.ceil(products.length / itemsPage)
-
   return (
    <>
         <div>
         <Container fluid style={{marginTop:80}}>
+            <Button className='d-lg-none' onClick={handleShow}>Categories</Button>
+            <Offcanvas show={show} onHide={handleClose}>
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title className='fs-3'>Categories</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <div>
+                        <div onClick={()=>handleCat('all')} style={{fontWeight:cat === 'all' ? 'bold' : 'normal', cursor:'pointer'}}>All</div>
+                        <div>
+                            {
+                                list.map((c, i)=>{
+                                    return(
+                                        <div key={i}>
+                                            <div onClick={()=>handleCat(c)} style={{padding:'10px 0px', fontWeight:cat === c ? 'bold' : 'normal', cursor:'pointer'}}>{c.name}</div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                </Offcanvas.Body>
+            </Offcanvas>
             <Row>
-                <Col xs={12} md={3}>
+                <Col className='d-none d-lg-block' xs={12} md={3} style={{width:'24%'}}>
                     <div style={{paddingLeft:20, paddingTop:30, overflowY:'auto', backgroundColor: '#E7E9EB', position:'fixed', width:'260px', height:'85vh', borderRight:'1px solid #ccc', zIndex:100}}>
                         <h4 style={{marginBottom:10}}>Categories</h4>
                         <div>
@@ -135,7 +144,7 @@ function Shop() {
                         </div>
                     </div>
                 </Col>
-                <Col xs={12} md={9}>
+                <Col xs={12} md={12} lg={9}>
                     <div style={{display:'flex', justifyContent:'center', marginTop:25}}>
                         <input type="search" placeholder="Search..." value={search} onChange={(e)=>{handleSearch(e.target.value)}} style={{width:600, height:40, border:'2px solid black', outlineOffset:0, borderRadius:6, paddingLeft:10, marginBottom:15, textTransform:'capitalize'}} />
                         <Dropdown style={{marginLeft:40}}>
@@ -155,7 +164,7 @@ function Shop() {
                             products.length > 0 ? (
                                 products.map((pro, i)=>{
                                     return(
-                                        <Col key={i} xs={12} sm={6} md={5} lg={3}>
+                                        <Col key={i} xs={12} sm={6} md={4} lg={3}>
                                             <Card style={{boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', marginTop:15, marginBottom:15}}>
                                                 <div style={{display:'flex', justifyContent:'end', padding:'10px 10px 0px 0px'}}>
                                                     <IoMdHeartEmpty style={{fontSize:20}} />

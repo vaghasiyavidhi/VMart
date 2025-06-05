@@ -19,16 +19,18 @@ function Product() {
         .then(res => res.json())
         .then((product)=>{
             setDes(product)
-            setRev(product.reviews)
+            setRev(product.reviews || [])
         })
-    })
+    }, [params.id])
 
   return (
     <>
         <Container style={{marginTop:100}}>
             <Row>
-                <Col lg={6} sm={12} xs={12}>
-                    <img src={des.thumbnail} alt="" width={500} height={480}/>
+                <Col lg={6} md={6} sm={12} xs={12}>
+                    <Row>
+                        <img src={des.thumbnail} alt="" width={500} height={480} />
+                    </Row>
                     <Row>
                         <Col>
                             <img src={des.images} alt="" width={180} height={160} style={{border:'1px solid gray'}} />
@@ -38,7 +40,7 @@ function Product() {
                         <Link to={'/cart'} style={{textDecoration:'none'}}><Button onClick={()=>{dispatch(addToCart(des))}} variant="success" style={{width:170, height:50, fontSize:17, fontWeight:500, marginTop:40, marginBottom:40, display:'flex', justifyContent:'center', alignItems:'center'}}>ADD TO CART</Button></Link>
                     </Row>
                 </Col>
-                <Col lg={6} sm={12} xs={12}>
+                <Col lg={6} md={6} sm={12} xs={12}>
                     <h2>{des.title}</h2>
                     <h6 style={{fontSize:17}}>{des.brand} ({des.category})</h6>
                     <div className='rating'>{des.rating}<FaStar style={{margin:'0 0 4px 4px', height:'10px'}}/></div>

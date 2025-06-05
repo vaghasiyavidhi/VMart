@@ -26,9 +26,6 @@ strike{
     font-weight: 300;
     font-size: 18px;
 }
-.card-img{
-    width: 30% !important;
-}
 .bg-primary{
     background-color: #388e3c !important;
     border-radius: 50%;
