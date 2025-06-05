@@ -23,14 +23,14 @@ function Cart() {
   return (
     <>
         <Container style={{marginTop:80, marginBottom:30}}>
-            <Row>
+            <Row className='justify-content-center'>
                 <Col lg={8} md={12} sm={12} xs={12}>
                   {
                     item.map((val, i)=>{
                       return(
                         <Card key={i} style={{ marginTop:40, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
                             <div style={{ display: 'flex' }}>
-                              <Card.Img src={val.thumbnail} />
+                              <Card.Img src={val.thumbnail}/>
                               <Card.Body>
                                 <Link to={`/product/${val.id}`} style={{textDecoration:'none', color:'black'}}><Card.Title>{val.title}</Card.Title></Link>
                                 <p className='text-secondary'>{val.sku}</p>
@@ -51,7 +51,7 @@ function Cart() {
                     })
                   }
                 </Col>
-                <Col lg={4} md={6} xs={12} className='shadow' style={{marginTop:40, height:390}}>
+                <Col lg={4} md={6} xs={10} className='shadow' style={{marginTop:40, height:390}}>
                   <h5 className='text-secondary pt-3 pb-3'>PRICE DETAILS</h5><hr style={{marginTop:0}}/>
                   <div className='pt-2 pb-3'>
                     <div className='d-flex justify-content-between'>

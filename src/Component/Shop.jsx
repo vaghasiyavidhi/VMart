@@ -116,26 +116,28 @@ function Shop() {
         <div>
         <Container fluid style={{marginTop:80}}>
             <Row>
-                <Col sm={12} md={6} lg={2}>
-                    <div style={{paddingLeft:20, paddingTop:30}}>
-                        <h4>Categories</h4>
-                        <div onClick={()=>handleCat('all')} style={{fontWeight:cat === 'all' ? 'bold' : 'normal', cursor:'pointer', marginTop:20}}>All</div>
+                <Col xs={12} md={3}>
+                    <div style={{paddingLeft:20, paddingTop:30, overflowY:'auto', backgroundColor: '#E7E9EB', position:'fixed', width:'260px', height:'85vh', borderRight:'1px solid #ccc', zIndex:100}}>
+                        <h4 style={{marginBottom:10}}>Categories</h4>
                         <div>
-                            {
-                                list.map((c, i)=>{
-                                    return(
-                                        <div key={i}>
-                                            <div onClick={()=>handleCat(c)} style={{padding:'10px 0px', fontWeight:cat === c ? 'bold' : 'normal', cursor:'pointer'}}>{c.name}</div>
-                                        </div>
-                                    )
-                                })
-                            }
+                            <div onClick={()=>handleCat('all')} style={{fontWeight:cat === 'all' ? 'bold' : 'normal', cursor:'pointer', marginTop:20}}>All</div>
+                            <div>
+                                {
+                                    list.map((c, i)=>{
+                                        return(
+                                            <div key={i}>
+                                                <div onClick={()=>handleCat(c)} style={{padding:'10px 0px', fontWeight:cat === c ? 'bold' : 'normal', cursor:'pointer'}}>{c.name}</div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
                 </Col>
-                <Col sm={12} md={6} lg={10}>
+                <Col xs={12} md={9}>
                     <div style={{display:'flex', justifyContent:'center', marginTop:25}}>
-                        <input type="search" placeholder="Search..." value={search} onChange={(e)=>{handleSearch(e.target.value)}} style={{width:600, height:40, border:'2px solid black', outlineOffset:0, borderRadius:6, paddingLeft:10, textTransform:'capitalize'}} />
+                        <input type="search" placeholder="Search..." value={search} onChange={(e)=>{handleSearch(e.target.value)}} style={{width:600, height:40, border:'2px solid black', outlineOffset:0, borderRadius:6, paddingLeft:10, marginBottom:15, textTransform:'capitalize'}} />
                         <Dropdown style={{marginLeft:40}}>
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
                                 Sort Products
@@ -148,17 +150,17 @@ function Shop() {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    <div style={{display:'flex', flexWrap:'wrap', paddingTop:20}}>
+                    <Row style={{display:'flex', flexWrap:'wrap'}}>
                         {
                             products.length > 0 ? (
                                 products.map((pro, i)=>{
                                     return(
-                                        <div key={i} style={{margin:'2%'}} >
-                                            <Card style={{ width: '18rem', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
+                                        <Col key={i} xs={12} sm={6} md={5} lg={3}>
+                                            <Card style={{boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)', marginTop:15, marginBottom:15}}>
                                                 <div style={{display:'flex', justifyContent:'end', padding:'10px 10px 0px 0px'}}>
                                                     <IoMdHeartEmpty style={{fontSize:20}} />
                                                 </div>
-                                                <Link to={`product/${pro.id}`}><Card.Img className='stretched-link' variant="top" src={pro.thumbnail} alt={pro.title} /></Link><hr />
+                                                <Link to={`product/${pro.id}`}><Card.Img className='stretched-link' variant="top" src={pro.thumbnail} alt={pro.title} /></Link><hr style={{marginBottom:0, marginTop:0}}/>
                                                 <Card.Body>
                                                     <Link to={`product/${pro.id}`} style={{textDecoration:'none', color:'gray'}}>{pro.brand}</Link>
                                                     <Card.Title style={{marginTop:10}}>{pro.title}</Card.Title>
@@ -167,84 +169,33 @@ function Shop() {
                                                     <Link to={'/cart'}><Button onClick={()=>dispatch(addToCart(pro))} variant="dark" style={{width:80, marginLeft:'6%'}}>Add</Button></Link>
                                                 </Card.Body>
                                             </Card>
-                                        </div>
+                                        </Col>
                                     )
                                 })
                             ) : (<h5 style={{margin:'auto', marginTop:'30%'}}>No Products Available.</h5>)
                         }
-                    </div>
-                    {/* <nav aria-label="Page navigation example">
-                        <ul class="pagination" variant="dark">
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                            </li>
-                        </ul>
-                    </nav> */}
-                    {/* <nav>
-                        <ul className='pagination justify-content-center'> 
-                            <li className={`page-item ${page === 1 && 'disabled'}`}>
-                                <button className='page-link' onClick={()=>{setPage(prev => Math.max(prev - 1,1))}}>&laquo;</button>
-                            </li>
-                            {[...Array(totalPage)].map((_, i)=>{
-                                return(
-                                    <li key={i} className={`page-item ${page === i + 1 && 'active'}`}>
-                                        <button className='page-link' onClick={()=>{setPage(i + 1)}}>{i + 1}</button>
-                                    </li>
-                                )
-                            })}
-                            <li className={`page-item ${page === totalPage && 'disabled'}`}>
-                                <button className='page-link' onClick={()=>{setPage(prev => Math.min(prev + 1, totalPage))}}>&raquo;</button>
-                            </li>
-                        </ul>
-                    </nav> */}
-                    {/* <nav>
-                        <ul className='pagination'>
-                            <li onClick={()=>{page > 1 && setPage(page - 1)}}>&laquo;</li>
-                            {
-                                [...Array(totalPage)].map((_, i)=>{
+
+                        <nav>
+                            <ul className='pagination justify-content-center'> 
+                                <li className={`page-item ${page === 1 && 'disabled'}`}>
+                                    <button className='page-link' onClick={()=>{setPage(prev => Math.max(prev - 1, 1))}}>&laquo;</button>
+                                </li>
+                                {[...Array(totalPage)].map((_, i)=>{
                                     return(
-                                        // <li key={i} className={`page-item ${p === page ? 'active' : ''}`} onClick={()=>{pageData(p)}}>
-                                        //     <a className='page-link'>{page}</a>
-                                        // </li>
-                                        <li key={i} onClick={()=>{setPage(i + 1)}}>{i + 1}</li>
+                                        <li key={i} className={`page-item ${page === i + 1 && 'active'}`}>
+                                            <button className='page-link' onClick={()=>{pageData(i + 1)}}>{i + 1}</button>
+                                        </li>
                                     )
-                                })
-                            }
-                            <li onClick={()=>{page < totalPage && setPage(page + 1)}}>&raquo;</li>
-                        </ul>
-                    </nav> */}
+                                })}
+                                <li className={`page-item ${page === totalPage && 'disabled'}`}>
+                                    <button className='page-link' onClick={()=>{setPage(prev => Math.min(prev + 1, totalPage))}}>&raquo;</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </Row>
                 </Col>
             </Row>
         </Container>
-            <nav>
-                <ul className='pagination justify-content-center'> 
-                    <li className={`page-item ${page === 1 && 'disabled'}`}>
-                        <button className='page-link' onClick={()=>{setPage(prev => Math.max(prev - 1, 1))}}>&laquo;</button>
-                    </li>
-                    {[...Array(totalPage)].map((_, i)=>{
-                        return(
-                            <li key={i} className={`page-item ${page === i + 1 && 'active'}`}>
-                                <button className='page-link' onClick={()=>{pageData(i + 1)}}>{i + 1}</button>
-                            </li>
-                        )
-                    })}
-                    <li className={`page-item ${page === totalPage && 'disabled'}`}>
-                        <button className='page-link' onClick={()=>{setPage(prev => Math.min(prev + 1, totalPage))}}>&raquo;</button>
-                    </li>
-                </ul>
-            </nav>
         </div>
    </>
   )
